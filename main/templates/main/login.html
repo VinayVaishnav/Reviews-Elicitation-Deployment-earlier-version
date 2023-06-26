@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Hunt</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="{% url 'main:login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="form-inputs">Login</button>
+    </form>
+    <p><a href="{% url 'password_reset:request' %}">Forgot password?</a></p>
+    <h3>Don't have an account? <a href="{% url 'main:signup' %}">Create Account</a></h3>
+</body>
+</html>

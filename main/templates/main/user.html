@@ -1,0 +1,916 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        background-color: #bbeef1;
+    }
+
+    .profile-section {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f0f0f0;
+        border-radius: 30px;
+        gap: 150px;
+        margin: 10px;
+    }
+
+    .imagesection {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-image {
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    .profile-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .profile-name {
+        font-family: 'Raleway';
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .contact {
+        font-family: 'Gantari';
+        margin-bottom: 10px;
+    }
+
+    .bio-section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-bio {
+        font-family: 'Raleway';
+        font-size: 30px;
+        margin-right: 10px;
+    }
+
+    .profile-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 12px;
+        cursor: pointer;
+        text-align: center;
+        width: 140px;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-button:hover {
+        background-color: #0056b3;
+        font-weight: bold;
+    }
+
+    /* Responsive adjustments */
+    @media only screen and (max-width:1320px) {
+        .imagesection{
+            margin-right: 40px;
+        }
+        .profile-name{
+            font-size: 45px;
+        }
+        .contact{
+            font-size: 35px;
+        }
+        .profile-bio{
+            font-size: 40px;
+        }
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .profile-section{
+            gap: 75px;
+        }
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .imagesection{
+            margin-right: 40px;
+        }
+        .profile-name{
+            font-size: 35px;
+        }
+        .contact{
+            font-size: 25px;
+        }
+        .profile-bio{
+            font-size: 30px;
+        }
+        .profile-section{
+            gap: 50px;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .profile-section {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .imagesection {
+            margin: 0px;
+        }
+        .profile-details {
+            margin-left: 0;
+        }
+        .profile-name {
+            margin: 0px;
+            font-size: 50px;
+        }
+        .profile-bio {
+            font-size: 40px;
+            margin-bottom: 10px;
+            margin-top: 18px;
+            margin-left: 0px;
+        }
+        .contact{
+            font-size: 35px;
+        }
+        .profile-button {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+    }
+
+    @media only screen and (max-width: 470px) {
+        .profile-image{
+            height: 300px;
+            width: 300px;
+        }
+        .profile-name {
+            margin: 0px;
+            font-size: 40px;
+        }
+        .profile-bio {
+            font-size: 30px;
+        }
+        .contact{
+            font-size: 25px;
+        }
+    }
+
+    .reviews-section {
+        margin: 10px;
+        height: auto;
+        max-height: 800px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 30px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .reviews-section a {
+        text-decoration: none;
+    }
+
+    .reviews-section h3 {
+        font-family: 'Gantari';
+        font-size: 30px;
+        font-weight: bold;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .reviews-section ul {
+        list-style: none;
+        height: auto;
+        max-height: 600px;
+        overflow: auto;
+        padding: 8px;
+        padding-top: 10px;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 15px;
+        background-color: #faf9f9;
+    }
+
+    .reviews-section li {
+        border: black solid;
+        border-radius: 20px;
+        margin-bottom: 7px;
+        margin-left: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 2px;
+    }
+
+    .reviews-section .heading {
+        font-family: 'Oswald';
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 2px;
+        margin-top: 12px;
+        margin-left: 10px;
+        color: black;
+    }
+
+    .reviews-section .heading:hover{
+        color: rgb(97, 97, 97);
+    }
+
+    .reviews-section .content{
+        background-color: #dddddd82;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 5px;
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        /* border: solid black; */
+        border: none;
+        border-radius: 10px;
+        /* margin-right: 25px; */
+
+        .skill_header{
+            margin-left: 10px;
+            font-family: 'Albert Sans';
+            font-weight: bold;
+            flex-basis: 35%;
+            font-size: 20px;
+        }
+        .content_section{
+            font-family: 'Gantari';
+            font-size: 18px;
+            align-items: flex-start;
+            padding: 4px;
+            flex-basis: 65%;
+            margin-right: 40px;
+        }
+        .public_private{
+            flex-basis: 10%;
+        }
+    }
+
+    .votes {
+        display: flex;
+        height: 10px;
+        margin-top: 0px;
+        margin-left: 4px;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 4px;
+    }
+
+    .votes p {
+        margin-right: 20px;
+    }
+
+    .reviews-section .editdelete {
+        display: flex;
+        width: fit-content;
+        flex-direction: row;
+        align-items: start;
+        gap: 2px;
+    }
+
+    .reviews-section .editdelete form {
+        width: fit-content;
+        margin-right: 5px;
+        margin-right: 0px;
+        }
+
+    .reviews-section button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 4px;
+        border-radius: 12px;
+        justify-content: center;
+        width: 80px;
+        margin: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .reviews-section button:hover {
+        background-color: #0056b3;
+    }
+
+    .no-reviews {
+        font-family: 'Albert Sans';
+        color: #999;
+        font-size: 30px;
+        padding: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .reviews-section {
+            height: auto;
+            max-height: 800px;
+            padding: 15px;
+            overflow: scroll;
+        }
+        .reviews-section h3 {
+            font-size: 24px;
+        }
+        .reviews-section ul {
+            height: auto;
+            max-height: none;
+        }
+        .reviews-section li {
+            margin-bottom: 5px;
+        }
+        .votes {
+            margin-top: 0px;
+            margin-bottom: 2px;
+        }
+        .votes p {
+            margin-right: 10px;
+        }
+        .reviews-section .editdelete {
+            gap: 1px;
+        }
+        .reviews-section button {
+            padding: 3px;
+            margin: 3px;
+            font-size: 12px;
+        }
+        .reviews-section .content{
+
+            .skill_header{
+                font-size: 17px;
+            }
+            .content_section{
+                font-size: 15px;
+            }
+            .public_private{
+            }
+        }
+    }
+    @media only screen and (max-width: 650px){
+        .reviews-section .content{
+            display: flex;
+            flex-direction: column;
+            .content_section{
+                /* font-size: 10px; */
+                margin-right: 5px;
+            }
+        }
+    }
+    
+    #id_review::placeholder {
+        font-family: 'Albert Sans';
+        font-size: large;
+    }
+
+    .vote-btn {
+        font-size: larger !important;
+        background-color: #999 !important;
+    }
+
+    .vote-btn:hover{
+        background-color: black !important;
+    }
+
+    .used-vote-btn {
+        font-size: larger !important;
+        background-color: #4ecdc4 !important;
+    }
+    
+    .used-vote-btn:hover{
+        background-color: #1a535c !important;
+    }
+
+    .vote-count {
+        font-family: 'Gantari';
+        font-weight: bolder;
+        margin-top: auto;
+        margin-bottom: 0px; 
+    }
+    
+    .bio-description {
+        font-size: x-large;
+        font-weight: bolder;
+        font-family: 'Gantari';
+        color: grey;
+    }
+    
+    .editdelete .button-container {
+        width: 80px !important;
+        font-family: 'Gantari';
+        font-size: larger;
+        color: #08c6ab;
+        border: 2px solid #08c6ab;
+        /* padding: 4px; */
+        /* margin: 5px; */
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .editdelete .button-container:hover {
+        background-color: #08c6ab !important;
+        color: white;
+    }
+    
+    .AddReview {
+        font-family: 'Montserrat';
+        margin-top: 20px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 30px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+    }
+    
+    .problem_solving-textarea {
+        font-family: 'Albert Sans';
+        width: 60%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .communication-textarea {
+        font-family: 'Albert Sans';
+        width: 60%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .sociability-textarea {
+        font-family: 'Albert Sans';
+        width: 60%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .review-rating-1{
+        width: 90%;
+        justify-content: space-between;
+    }
+
+    .add {
+        font-family: 'Montserrat';
+        text-align: center;
+        font-size: 58px;
+        margin-bottom: 10px;
+    }
+
+    .add-form {
+        font-family: 'Montserrat';
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .add-form > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: solid 1px black;
+        border-radius: 30px;
+        padding: 12px;
+        margin-bottom: 10px;
+        width: 80%;
+        margin: 10px;
+    }
+    
+    .add-form label {
+        font-family: 'Montserrat';
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: 38px;
+        
+    }
+
+    .add-form > div > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .add-form > div > div > p {
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 22px;
+    }
+
+    #rating-value-1,
+    #rating-value-2,
+    #rating-value-3 {
+        margin-left: 10px;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    .submit-review {
+        align-items: center;
+        justify-content: center;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-left: 20px;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .reviews-section button {
+            width: 62px;
+            padding: 2px;
+            font-size: 12px;
+            height: auto;
+            max-height: 800px;
+        }
+        .reviews-section ul{
+            height: auto;
+            max-height: 700px;
+        }
+        .reviews-section .editdelete{
+            gap: 0px;
+        }
+        .reviews-section .editdelete button{
+            width: 47px;
+            margin-bottom: 5px;
+        }
+        .reviews-section li{
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+        .reviews-section .content{
+
+            .skill_header{
+                font-size: 16px;
+            }
+            .content_section{
+                font-size: 14px;
+            }
+            .public_private{
+            }
+        }
+        .problem_solving-textarea,.communication-textarea,.sociability-textarea{
+            font-size: 14px;
+        }
+        .add{
+            font-size: 45px;
+        }
+        .add-form label{
+            font-size: 30px;
+        }
+        .add-form > div > div > p{
+            font-size: 19px;
+        }
+        #rating-value-1,
+        #rating-value-2,
+        #rating-value-3 {
+            font-size: 19px;
+        }
+    }
+    @media only screen and (max-width: 400px){
+        .add-form > div > div > p{
+            margin: 5px;
+        }
+    }
+    @media only screen and (max-width: 415px){
+        #rating-value-1,
+        #rating-value-2,
+        #rating-value-3 {
+            font-size: 13px;
+        }
+        .add-form > div > div > p{
+            font-size: 13px;
+        }
+        .add-form label{
+            font-size: 25px;
+            margin: 0;
+        }
+        .submit-review{
+            margin: 0px;
+        }
+
+    }
+</style>
+
+<div class="container">
+    <div class="profile-section">
+        <div class="imagesection">
+            {% if user.userprofile.profile_image %}
+                <img class="profile-image" src="{{ user.userprofile.profile_image.url }}" alt="Profile Image" >
+            {% else %}
+                {% if user.userprofile.gender == 'M' %}
+                    <img class="profile-image" src="{% static 'profile_images/male_default.jpg' %}" alt="Default Image" >
+                {% elif user.userprofile.gender == 'F' %}
+                    <img class="profile-image" src="{% static 'profile_images/female_default.jpg' %}" alt="Default Image" >
+                {% else %}
+                    <img class="profile-image" src="{% static 'profile_images/default.jpg' %}" alt="Default Image" >
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="profile-details">
+            <h1 class="profile-name">{{user.first_name}} {{user.last_name}}</h1>
+            {% if user.userprofile.bio %}
+                <div class="bio-section">
+                    <div>
+                        <h3 class="profile-bio">Bio:</h3>
+                        <p class="bio-description">{{ user.userprofile.bio }}</p>
+                    </div>
+                </div>
+            {% endif %}
+            <h1 class="contact">Contact: {{user.userprofile.contact_number}}</h1>
+        </div>
+    </div>
+    
+    <div class="reviews-section">
+        <h3>Reviews Received</h3>
+        <ul>
+            {% for review in processed_rec_reviews %}
+                <li>
+                    {% if review.review.anonymous_from != 'Anonymous' and review.review.anonymous_from != request.user.username %}
+                        <a href="{% url 'main:user' username=review.review.from_user %}"><p class="heading">{{ review.review.review_giver }}</p></a>
+                    {% else %}
+                        <p class="heading">{{ review.review.review_giver }}</p>
+                    {% endif %}
+                        
+                    <br/>
+
+                    <div class="content" >
+                        <p class="skill_header">PROBLEM SOLVING</p>
+                        <div class="content_section">
+                            {% if review.review.problem_solving_bool %}
+                                <p>{{ review.review.problem_solving }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="content" >
+                        <p class="skill_header">COMMUNICATION</p>
+                        <div class="content_section">
+                            {% if review.review.communication_bool %}
+                                <p>{{ review.review.communication }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="content" >
+                        <p class="skill_header">SOCIABILITY</p>
+                        <div class="content_section">
+                            {% if review.review.sociability_bool %}
+                                <p>{{ review.review.sociability }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    <form method="post" action="{% url 'main:user' username=user.username %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="review_id" value="{{review.review.id }}">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <p id="upvote-count-{{ review.review.id }}" class="vote-count">{{ review.review.get_upvotes_count }}</p>
+                            {% if review.has_upvoted %}
+                                <button
+                                    id="upvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="upvote" 
+                                    type="submit" name="action" value="upvote" class="vote-btn used-vote-btn">&#8679;</button>
+                            {% else %}
+                                <button
+                                    id="upvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="upvote" 
+                                    type="submit" name="action" value="upvote" class="vote-btn">&#8679;</button>
+                            {% endif %}
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <p id="downvote-count-{{ review.review.id }}" class="vote-count">{{ review.review.get_downvotes_count }}</p>
+                            {% if review.has_downvoted %}
+                                <button
+                                    id="downvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="downvote"
+                                    type="submit" name="action" value="downvote" class="vote-btn used-vote-btn">&#8681;</button>
+                            {% else %}
+                                <button
+                                    id="downvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="downvote"
+                                    type="submit" name="action" value="downvote" class="vote-btn">&#8681;</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                
+                    {% if review.review.from_user == request.user.username %}
+                        <div class="editdelete">
+                            <form method="post" action="{% url 'main:edit' review.review.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="review_id" value="{{ review.review.id }}">
+                                <button type="submit" style="background: none;" class="button-container">Edit</button>
+                            </form>
+                            <form method="post" action="{% url 'main:delete' review.review.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="review_id" value="{{ review.review.id }}">
+                                <button type="submit" style="background: none;" class="button-container">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            
+                <br/>
+
+            {% empty %}
+                <p class="no-reviews">No reviews given yet.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="reviews-section">
+        <h3>Reviews Given</h3>
+        <ul>
+            {% for review in processed_giv_reviews %}
+                <li>
+                    {% if review.review.to_user != request.user.username %}
+                        <a href="{% url 'main:user' username=review.review.to_user %} %"><p class="heading">{{ review.review.review_receiver }}</p></a>
+                    {%  else %}
+                        <p class="heading">{{ review.review.review_receiver }}</p>
+                    {% endif %}
+                    
+                    <br/>
+                
+                    <div class="content" >
+                        <p class="skill_header">PROBLEM SOLVING</p>
+                        <div class="content_section">
+                            {% if review.review.problem_solving_bool %}
+                                <p>{{ review.review.problem_solving }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+ 
+                    <div class="content" >
+                        <p class="skill_header">COMMUNICATION</p>
+                        <div class="content_section">
+                            {% if review.review.communication_bool %}
+                                <p>{{ review.review.communication }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="content" >
+                        <p class="skill_header">SOCIABILITY</p>
+                        <div class="content_section">
+                            {% if review.review.sociability_bool %}
+                                <p>{{ review.review.sociability }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    <form method="post" action="{% url 'main:user' username=user.username %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="review_id" value="{{review.review.id }}">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <p id="upvote-count-{{ review.review.id }}" class="vote-count">{{ review.review.get_upvotes_count }}</p>
+                            {% if review.has_upvoted %}
+                                <button
+                                    id="upvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="upvote" 
+                                    type="submit" name="action" value="upvote" class="vote-btn used-vote-btn">&#8679;</button>
+                            {% else %}
+                                <button
+                                    id="upvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="upvote" 
+                                    type="submit" name="action" value="upvote" class="vote-btn">&#8679;</button>
+                            {% endif %}
+                        </div>
+    
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <p id="downvote-count-{{ review.review.id }}" class="vote-count">{{ review.review.get_downvotes_count }}</p>
+                            {% if review.has_downvoted %}
+                                <button
+                                    id="downvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="downvote"
+                                    type="submit" name="action" value="downvote" class="vote-btn used-vote-btn">&#8681;</button>
+                            {% else %}
+                                <button
+                                    id="downvote-btn-{{ review.review.id }}" data-review-id="{{ review.review.id }}" data-action="downvote"
+                                    type="submit" name="action" value="downvote" class="vote-btn">&#8681;</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </li>
+            
+                <br/>
+            
+            {% empty %}
+                <p class="no-reviews">No reviews given yet.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if not existing_review %}
+    <div class="AddReview" >
+        <h2 class="add">Add Review</h2>
+        <form method="post" enctype="multipart/form-data" class="add-form">
+            {% csrf_token %}
+            <div>
+                <label>Problem Solving</label>
+                {{ reviewform.problem_solving }}
+                {{ reviewform.problem_solving.errors }} 
+            </div>
+
+            <div>
+                <label>Communications</label>
+                {{ reviewform.communication }}
+                {{ reviewform.communication.errors }} 
+            </div>
+
+            <div>
+                <label>Sociability</label>
+                {{ reviewform.sociability }}
+                {{ reviewform.sociability.errors }} 
+            </div>
+
+            <div>
+                <label style="font-size: 20px; width: auto; margin-left: 30px; margin-bottom: 20px;">Anonymous Review
+                    {{ reviewform.is_anonymous }}
+                    {{ reviewform.is_anonymous.errors }}
+                </label>
+                <button type="submit" style="background-color: #333; " class="submit-review" name="review-form" onclick="validateRating()">Submit Review</button>
+            </div>
+        </form>
+    {% endif %}
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.vote-btn').click(function(e) {
+            e.preventDefault();
+            var reviewId = $(this).data('review-id');
+            var action = $(this).data('action');
+            var button = $(this);
+
+            $.ajax({
+                url: '{% url "main:vote" %}',
+                type: 'POST',
+                data: {
+                    'review_id': reviewId,
+                    'action': action,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // console.log(response)
+
+                    var upvoteCountElement = $('#upvote-count-' + response.review_id);
+                    upvoteCountElement.text(response.upvotes_count);
+                    var downvoteCountElement = $('#downvote-count-' + response.review_id);
+                    downvoteCountElement.text(response.downvotes_count);
+
+                    var upvoteButtonElement = $('#upvote-btn-' + response.review_id);
+                    var downvoteButtonElement = $('#downvote-btn-' + response.review_id);
+
+                    if (response.has_upvoted){
+                        upvoteButtonElement.addClass('used-vote-btn');
+                        downvoteButtonElement.removeClass('used-vote-btn');
+                    } else if (response.has_downvoted){
+                        downvoteButtonElement.addClass('used-vote-btn');
+                        upvoteButtonElement.removeClass('used-vote-btn');
+                    } else {
+                        upvoteButtonElement.removeClass('used-vote-btn');
+                        downvoteButtonElement.removeClass('used-vote-btn');
+                    }
+                },
+                error: function(response) {
+                    console.log(responseText)
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Hunt</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/edit.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Albert Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Gantari' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+</head>
+<body>
+    <h2>Edit Review</h2>
+
+    <form method="post" action="{% url 'main:edit' review_id %}">
+        {% csrf_token %}
+        <div >
+            <label>Problem Solving</label>
+            {{form.problem_solving}}
+            {{form.problem_solving.errors}}
+        </div>
+
+        <div >
+            <label>Communications</label>
+            {{form.communication}}
+            {{form.communication.errors}} 
+        </div>
+
+        <div>
+            <label>Sociability</label>
+            {{form.sociability}}
+            {{form.sociability.errors}} 
+    </div>
+
+        <div>
+            <label style="font-size: 20px; width: auto; margin-left: 30px; margin-bottom: 5px;" >Anonymous Review
+                {{ form.is_anonymous }}
+                {{ form.is_anonymous.errors }}
+            </label>
+        </div>
+        <button type="submit" name="edit-review" onclick="validateRating()">Save</button>
+    </form>
+    
+    <a href="{% url 'main:user' username=username%}" class="cancel-link">Cancel</a>
+</body>
+</html>
